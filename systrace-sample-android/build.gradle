@@ -2,6 +2,7 @@
 
 buildscript {
     repositories {
+        // systrace plug(jar)从本地maven库查找
         mavenLocal()
 
         google()
@@ -11,6 +12,7 @@ buildscript {
     dependencies {
         // classpath
         classpath 'com.android.tools.build:gradle:3.2.1'
+        //最后的local maven路劲 C:\Users\Administrator\.m2\repository\com\geektime\systrace\systrace-gradle-plugin\1.0
         classpath ("com.geektime.systrace:systrace-gradle-plugin:1.0") { changing = true }
 
     }

@@ -39,5 +39,7 @@ task buildAndPublishToLocalMaven(type: Copy, dependsOn: ['build', 'publishToMave
 
     doLast {
         println "* published to maven local: ${project.group}:${project.name}:${project.version}"
+        // published to maven local: com.geektime.systrace:systrace-gradle-plugin:1.0
+        //最后的local maven路劲 C:\Users\Administrator\.m2\repository\com\geektime\systrace\systrace-gradle-plugin\1.0
     }
 }

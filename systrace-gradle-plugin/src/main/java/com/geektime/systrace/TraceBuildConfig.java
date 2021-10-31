@@ -30,6 +30,10 @@ public class TraceBuildConfig {
     private final String mPackageName;
     private final String mMappingPath;
     private final String mBaseMethodMap;
+
+    // MethodMapFile:D:\work\github\zhangshaowen\07\Chapter07-master\systrace-sample-android
+    // \app\build\systrace_output/Debug.methodmap
+    // 收集所有的class(包括匿名类,包括父类) 的方法
     private final String mMethodMapFile;
     private final String mIgnoreMethodMapFile;
 
@@ -164,9 +168,10 @@ public class TraceBuildConfig {
 
                 if (black.startsWith("-keepclass ")) {
                     black = black.replace("-keepclass ", "");
+                    // 白名单class
                     mBlackClassMap.add(processor.proguardClassName(black, black));
-
                 } else if (black.startsWith("-keeppackage ")) {
+                    // 白名单 包名
                     black = black.replace("-keeppackage ", "");
                     mBlackPackageMap.add(black);
                 }

@@ -43,8 +43,8 @@ public class SystemTraceTransform extends BaseProxyTransform {
                  "",
                 "Builder",variant.name
         )
-
-        project.logger.info("prepare inject dex transform :" + hackTransformTaskName +" hackTransformTaskNameForWrapper:"+hackTransformTaskNameForWrapper)
+        // info 不打印
+        project.logger.warn("prepare inject dex transform :" + hackTransformTaskName +" hackTransformTaskNameForWrapper:"+hackTransformTaskNameForWrapper)
 
         project.getGradle().getTaskGraph().addTaskExecutionGraphListener(new TaskExecutionGraphListener() {
             @Override
@@ -53,9 +53,12 @@ public class SystemTraceTransform extends BaseProxyTransform {
                     if ((task.name.equalsIgnoreCase(hackTransformTaskName) || task.name.equalsIgnoreCase(hackTransformTaskNameForWrapper))
                             && !(((TransformTask) task).getTransform() instanceof SystemTraceTransform)) {
                         project.logger.warn("find dex transform. transform class: " + task.transform.getClass() + " . task name: " + task.name)
-                        project.logger.info("variant name: " + variant.name)
+                        // info 不打印
+                        project.logger.warn("variant name: " + variant.name)
                         Field field = TransformTask.class.getDeclaredField("transform")
                         field.setAccessible(true)
+                        // 这里是关键 hook住这个任务 transformClassesWithDexBuilderForDebug
+                        // 也就是在 class ----转换前---> dex, 执行修改class
                         field.set(task, new SystemTraceTransform(project, variant, task.transform))
                         project.logger.warn("transform class after hook: " + task.transform.getClass())
                         break
@@ -79,9 +82,12 @@ public class SystemTraceTransform extends BaseProxyTransform {
             rootOutput.mkdirs()
         }
         final TraceBuildConfig traceConfig = initConfig()
-        Log.i("Systrace." + getName(), "[transform] isIncremental:%s rootOutput:%s", isIncremental, rootOutput.getAbsolutePath())
+        Log.i("Systrace." + getName(), "[transform] isIncremental:%s rootOutput:%s",
+                isIncremental, rootOutput.getAbsolutePath())
         final MappingCollector mappingCollector = new MappingCollector()
         File mappingFile = new File(traceConfig.getMappingPath());
+        // mappingFile:D:\work\github\zhangshaowen\07\Chapter07-master\systrace-sample-android
+        Log.i("Systrace." + getName(), "mappingFile: " + mappingFile.getAbsolutePath())
         if (mappingFile.exists() && mappingFile.isFile()) {
             MappingReader mappingReader = new MappingReader(mappingFile);
             mappingReader.read(mappingCollector)
@@ -234,7 +240,7 @@ public class SystemTraceTransform extends BaseProxyTransform {
                 .setBlackListFile(configuration.blackListFile)
                 .setMappingPath(mappingFilePath)
                 .build()
-        project.logger.info("TraceConfig: " + traceConfig.toString())
+        project.logger.warn("TraceConfig: " + traceConfig.toString())
         return traceConfig
     }
 }

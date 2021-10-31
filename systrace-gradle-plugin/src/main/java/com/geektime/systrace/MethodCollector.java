@@ -167,7 +167,11 @@ public class MethodCollector {
         }
     }
 
-
+    /**
+     * 收集所有类的方法的映射，如下
+     * 2,4,com.sample.systrace.MainActivity onResume ()V
+     * @param mappingCollector
+     */
     private void saveCollectedMethod(MappingCollector mappingCollector) {
         File methodMapFile = new File(mTraceConfig.getMethodMapFile());
         if (!methodMapFile.getParentFile().exists()) {
@@ -191,7 +195,10 @@ public class MethodCollector {
             pw = new PrintWriter(w);
             for (TraceMethod traceMethod : methodList) {
                 traceMethod.revert(mappingCollector);
-                pw.println(traceMethod.toString());
+                String traceMethodStr = traceMethod.toString();
+                // 这里还是别打印,会log冲掉
+                //Log.e(TAG, "write method map:%s", traceMethodStr);
+                pw.println(traceMethodStr);
             }
         } catch (Exception e) {
             Log.e(TAG, "write method map Exception:%s", e.getMessage());
@@ -308,7 +315,7 @@ public class MethodCollector {
             Enumeration<? extends ZipEntry> enumeration = zipFile.entries();
             while (enumeration.hasMoreElements()) {
                 ZipEntry zipEntry = enumeration.nextElement();
-                String zipEntryName = zipEntry.getName();
+                 String zipEntryName = zipEntry.getName();
                 if (mTraceConfig.isNeedTraceClass(zipEntryName)) {
                     InputStream inputStream = zipFile.getInputStream(zipEntry);
                     ClassReader classReader = new ClassReader(inputStream);
@@ -418,6 +425,9 @@ public class MethodCollector {
             this.className = className;
         }
 
+        /**
+         * 在方法访问结束判断是否映射
+         */
         @Override
         public void visitEnd() {
             super.visitEnd();
@@ -426,7 +436,7 @@ public class MethodCollector {
             if ("<init>".equals(name) /*|| "<clinit>".equals(name)*/) {
                 isConstructor = true;
             }
-            // filter simple methods
+            // filter simple methods 过滤空方法, getter setter方法, 简单方法
             if ((isEmptyMethod() || isGetSetMethod() || isSingleMethod())
                     && mTraceConfig.isNeedTrace(traceMethod.className, mMappingCollector)) {
                 mIgnoreCount++;

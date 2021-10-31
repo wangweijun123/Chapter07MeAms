@@ -1,0 +1,22 @@
+1 独立项目作为gradle插件: hook gradle 的android插件
+2 什么是短函数
+3 白名单如何配置的
+4 methodid 这里有哦
+
+1 配置remote debug
+Editor-config  ---> remote  --->  create configuration  ----> 取名字,其他默认
+use module classpath 选择 Chapter07-master 或者Chapter07-master.systrace-gradle-plugin都可以
+
+2 在\Chapter07-master\systrace-sample-android> 运行 build
+\07\Chapter07-master\systrace-sample-android>gradlew build -Dorg.gradle.debug=true  --no-daemon
+
+3 debug ‘remote’ 这个名字就是上面取的
+
+
+python $ANDROID_HOME/platform-tools/systrace/systrace.py gfx view wm am pm ss dalvik app sched -b 90960 -a com.sample.systrace  -o test.log.html
+
+
+
+python systrace.py gfx view wm am pm ss dalvik app sched -b 90960 -a com.sample.systrace  -o test.log.html
+
+python systrace.py -a com.sample.systrace  -o test.log.html

@@ -16,7 +16,7 @@
 操作步骤如下：
 
 1. 使用Android Studio打开工程Chapter07
-2. 运行gradle task ":systrace-gradle-plugin:buildAndPublishToLocalMaven" 编译plugin插件
+2. 运行gradlew task ":systrace-gradle-plugin:buildAndPublishToLocalMaven" 编译plugin插件
 3. 使用Android Studio单独打开工程systrace-sample-android
 4. 编译app
 
