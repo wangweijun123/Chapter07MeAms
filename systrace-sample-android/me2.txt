@@ -3,14 +3,16 @@
 3 白名单如何配置的
 4 methodid 这里有哦
 
-1 配置remote debug
+1 在Chapter07-master上配置remote debug, 在插件里面打好断点
 Editor-config  ---> remote  --->  create configuration  ----> 取名字,其他默认
 use module classpath 选择 Chapter07-master 或者Chapter07-master.systrace-gradle-plugin都可以
 
-2 在\Chapter07-master\systrace-sample-android> 运行 build
+在 systrace-sample-android运行gradlew build -Dorg.gradle.debug=true  --no-daemon
+切记切记切记切记： 需要gradlew clean 项目sample的缓存，不然不会调用transform()
+2 在\Chapter07-master\systrace-sample-android> 运行 build 在终端可以看到插件的输出
 \07\Chapter07-master\systrace-sample-android>gradlew build -Dorg.gradle.debug=true  --no-daemon
 
-3 debug ‘remote’ 这个名字就是上面取的
+3 在Chapter07-master上 debug ‘remote’ 这个名字就是上面取的
 
 
 python $ANDROID_HOME/platform-tools/systrace/systrace.py gfx view wm am pm ss dalvik app sched -b 90960 -a com.sample.systrace  -o test.log.html

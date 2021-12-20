@@ -6,7 +6,7 @@ MethodVisitor 中回调方法visitEnd()去判断
 
 
 
-第0步： 需要gradlew clean 项目sample的缓存，不然不会调用transform()
+第0步： 需要systrace-sample-android gradlew clean 项目sample的缓存，不然不会调用transform()
 1 配置remote debug
 Editor-config  ---> remote  --->  create configuration  ----> 取名字,其他默认
 use module classpath 选择 Chapter07-master 或者Chapter07-master.systrace-gradle-plugin都可以
