@@ -44,15 +44,18 @@ public class SystemTraceTransform extends BaseProxyTransform {
                 "Builder",variant.name
         )
         // info 不打印
-        project.logger.warn("prepare inject dex transform :" + hackTransformTaskName +" hackTransformTaskNameForWrapper:"+hackTransformTaskNameForWrapper)
+        project.logger.warn("prepare inject dex transform :" + hackTransformTaskName
+                +" hackTransformTaskNameForWrapper:"+hackTransformTaskNameForWrapper)
 
         project.getGradle().getTaskGraph().addTaskExecutionGraphListener(new TaskExecutionGraphListener() {
             @Override
             public void graphPopulated(TaskExecutionGraph taskGraph) {
                 for (Task task : taskGraph.getAllTasks()) {
-                    if ((task.name.equalsIgnoreCase(hackTransformTaskName) || task.name.equalsIgnoreCase(hackTransformTaskNameForWrapper))
+                    if ((task.name.equalsIgnoreCase(hackTransformTaskName)
+                            || task.name.equalsIgnoreCase(hackTransformTaskNameForWrapper))
                             && !(((TransformTask) task).getTransform() instanceof SystemTraceTransform)) {
-                        project.logger.warn("find dex transform. transform class: " + task.transform.getClass() + " . task name: " + task.name)
+                        project.logger.warn("find dex transform. transform class: "
+                                + task.transform.getClass() + " . task name: " + task.name)
                         // info 不打印
                         project.logger.warn("variant name: " + variant.name)
                         Field field = TransformTask.class.getDeclaredField("transform")

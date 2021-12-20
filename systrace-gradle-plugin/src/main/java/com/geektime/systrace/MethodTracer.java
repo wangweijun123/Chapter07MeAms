@@ -201,7 +201,7 @@ public class MethodTracer {
 
         private String className;
         private boolean isABSClass = false;
-        private boolean isMethodBeatClass = false;
+        private boolean isMethodBeatClass = false; // 是否为插桩的class
 
         TraceClassAdapter(int i, ClassVisitor classVisitor) {
             super(i, classVisitor);
@@ -272,7 +272,7 @@ public class MethodTracer {
                         sectionName = sectionName.substring(length - TraceBuildConstants.MAX_SECTION_NAME_LEN);
                     }
                 }
-                mv.visitLdcInsn(sectionName);
+                mv.visitLdcInsn(sectionName);// TraceTag.i(sectionName)
                 mv.visitMethodInsn(INVOKESTATIC, TraceBuildConstants.MATRIX_TRACE_METHOD_BEAT_CLASS, "i", "(Ljava/lang/String;)V", false);
             }
         }
@@ -295,8 +295,4 @@ public class MethodTracer {
             }
         }
     }
-
-
-
-
 }
